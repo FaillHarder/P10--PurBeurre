@@ -1,50 +1,90 @@
-from django.contrib.sessions.middleware import SessionMiddleware
-from usermanager.forms import SignUpForm
-from usermanager.views import registrer, myprofile
-# from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
-from django.test import RequestFactory, TestCase
+from usermanager.models import User
+
+from django.urls import reverse
+from django.test import TestCase
 
 
 # Create your tests here.
 class TestView(TestCase):
 
     def setUp(self):
-        self.factory = RequestFactory()
-        self.username = "username"
-        self.password = "secret"
-
-        self.user = User.objects.create_user(username="username", password="secret")
+        self.username = "usernametest@test.fr"
+        self.password = "passwordtest"
         return super().setUp()
 
-    def test_registrer(self):
-        request = self.factory.get("/registrer")
-        view = registrer(request)
-        self.assertEqual(view.status_code, 200)
+    def test_signup(self):
+        response_get = self.client.get(reverse("signup"))
+        self.assertContains(response_get, "Créer un compte", status_code=200)
 
-        request = self.factory.post("/registrer")
-        request.POST = {
-            "first_name": "firstnametest",
-            "last_name": "lastnametest",
-            "email": "test@email.fr",
-            "username": "usernametest",
-            "password1": "passwordtest",
-            "password2": "passwordtest"
-        }
+        # test form post with good information and display login.html
+        response_post = self.client.post(reverse("signup"), {
+                "email": self.username,
+                "password1": self.password,
+                "password2": self.password
+            },
+            follow=True
+        )
+        self.assertContains(
+            response_post,
+            "Pas encore inscrit?",
+            status_code=200
+        )
 
-        form = SignUpForm(request.POST)
-        self.assertTrue(form.is_valid())
-        middleware = SessionMiddleware()
-        middleware.process_request(request)
-        request.session.save()
-        view = registrer(request)
-        # redirect index
-        self.assertEqual(view.status_code, 302)
-
+        # test if the user was created
         user = User.objects.all()
-        self.assertEqual(len(user), 2)
+        self.assertEqual(len(user), 1)
 
-    def test_my_profile(self):
-        request = self.factory.get("/myprofile")
-        view = myprofile(request)
-        self.assertEqual(view.status_code, 200)
+        # test that we cannot register the same email
+        response_post = self.client.post(reverse("signup"), {
+                "email": self.username,
+                "password1": self.password,
+                "password2": self.password
+            },
+            follow=True
+        )
+        self.assertContains(
+            response_post,
+            "Un objet Utilisateur avec ce champ Email existe déjà.",
+            status_code=200
+        )
+
+    def test_login(self):
+        response_get = self.client.get(reverse("login"))
+        self.assertContains(
+            response_get,
+            "Pas encore inscrit?",
+            status_code=200
+        )
+
+        # test user login with good credentials
+        response_post = self.client.post(reverse("login"), {
+                "username": self.username,
+                "password": self.password
+            }
+        )
+        self.assertContains(
+            response_post,
+            "Pas encore inscrit?",
+            status_code=200
+        )
+
+        # test user login with bad credentials
+        response_post = self.client.post(reverse("login"), {
+                "username": self.username,
+                "password": "badpassword"
+            }
+        )
+        self.assertContains(
+            response_post,
+            "Votre nom d'utilisateur ou votre mot de passe est incorrect. Veuillez réessayer",
+            status_code=200
+        )
+
+    def test_logout(self):
+        self.client.login(email=self.username, password=self.password)
+        response_logout = self.client.get(reverse("logout"), follow=True)
+        self.assertContains(
+            response_logout,
+            "Du gras, oui, mais de qualité!",
+            status_code=200
+        )
