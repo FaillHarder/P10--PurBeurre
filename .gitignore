@@ -134,7 +134,6 @@ dmypy.json
 # flake8
 .flake8
 
-# docker env
-.env.dev
+# docker env prod
 .env.prod
 .env.prod.db
