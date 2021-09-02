@@ -1,0 +1,10 @@
+language: python
+
+python:
+  - "3.9"
+
+services:
+  postgresql
+
+script: 
+  - python manage.py test
