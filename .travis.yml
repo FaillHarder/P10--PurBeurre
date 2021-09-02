@@ -2,21 +2,13 @@ language: python
 
 python:
   - "3.9"
-<<<<<<< HEAD
 before_install:
   - chmod +x ./purbeurre/manage.py
 before_script:
-  - pip install -r requirements.txt
   - cd ./purbeurre/
-=======
->>>>>>> 84ee9b9952e826871fd4705069c77870d664aba2
 
 services:
   postgresql
 
 script: 
-<<<<<<< HEAD
   - python manage.py test
-=======
-  - ./purbeurre/manage.py test
->>>>>>> 84ee9b9952e826871fd4705069c77870d664aba2
