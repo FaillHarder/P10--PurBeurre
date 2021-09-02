@@ -1,0 +1,15 @@
+language: python
+
+python:
+  - "3.9"
+before_install:
+  - chmod +x ./purbeurre/manage.py
+before_script:
+  - pip install -r requirements.txt
+  - cd ./purbeurre/
+
+services:
+  postgresql
+
+script: 
+  - python manage.py test
