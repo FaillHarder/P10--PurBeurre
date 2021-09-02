@@ -2,8 +2,7 @@ language: python
 
 python:
   - "3.9"
-before_install:
-  - chmod +x ./purbeurre/manage.py
+
 before_script:
   - cd ./purbeurre/
 
