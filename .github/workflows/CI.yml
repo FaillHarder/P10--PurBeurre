@@ -1,5 +1,5 @@
 # Article: https://medium.com/rockedscience/docker-ci-cd-pipeline-with-github-actions-6d4cd1731030
-name: Run tests and flake8 with Python
+name: Run flake8 and unittest with Python
 
 # Sets the events which will trigger the Action
 # `push` = any "push" action to the GitHub "remote",
@@ -11,11 +11,16 @@ jobs:
   build:
     # Set the base environment to run the Action on
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        # Set the Python version(s) to run the tests with
-        python-version: [3.9]
+    services:
+      pg_db:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: pur-beurre
+          POSTGRES_USER: purbeurredev
+          POSTGRES_PASSWORD: purbeurretest
+          
     
     # Steps to complete the job
     steps:
@@ -36,3 +41,10 @@ jobs:
     - name: flake8 Lint
       run: |
        flake8 . --exclude env,__init__.py,migrations --max-line-length=127
+
+    - name: unittest
+      env:
+        SECRET_KEY: 0b4ab7377cd16cbf1f2cebda887d0b41aeb6311de0dbdbd668
+      run: |
+       cd app/
+       python manage.py test --verbosity 2
