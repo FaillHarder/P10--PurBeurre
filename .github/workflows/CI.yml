@@ -22,10 +22,10 @@ jobs:
     - name: Checking out code from the repository
       uses: actions/checkout@v2
     
-    - name: Setting up Python ${{ matrix.python-version }}
+    - name: Setting up Python 3.9
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.9
         
     - name: Install dependencies
       run: |
@@ -34,10 +34,5 @@ jobs:
         if [ -f app/requirements.txt ]; then pip install -r app/requirements.txt; fi
     
     - name: flake8 Lint
-        run: |
-          flake8 . --exclude env,__init__.py,migrations --max-line-length=127
-    
-    - name: Test with unittest
       run: |
-        cd app
-        python manage.py test --verbosity 2
+       flake8 . --exclude env,__init__.py,migrations --max-line-length=127
