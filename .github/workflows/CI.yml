@@ -17,9 +17,9 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_DB: dbtest
-          POSTGRES_USER: usertest
-          POSTGRES_PASSWORD: passwordtest
+          SQL_DATABASE: dbtest
+          SQL_USER: usertest
+          SQL_PASSWORD: passwordtest
     
     # Steps to complete the job
     steps:
