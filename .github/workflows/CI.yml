@@ -16,9 +16,13 @@ jobs:
         image: postgres
         ports:
           - 5432:5432
-        # env:
-        #   SQL_USER: usertest
-        #   SQL_PASSWORD: passwordtest
+        env:
+          SQL_ENGINE: django.db.backends.postgresql
+          SQL_DATABASE: pur-beurre
+          SQL_USER: purbeurredev
+          SQL_PASSWORD: purbeurretest
+          SQL_HOST: localhost
+          SQL_PORT: 5432
     
     # Steps to complete the job
     steps:
