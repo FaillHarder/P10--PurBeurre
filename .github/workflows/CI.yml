@@ -14,8 +14,8 @@ jobs:
     services:
       pg_db:
         image: postgres
-        ports:
-          - 5432:5432
+        # ports:
+        #   - 5432:5432
         # env:
         #   SQL_USER: usertest
         #   SQL_PASSWORD: passwordtest
