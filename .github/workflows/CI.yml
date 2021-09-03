@@ -11,11 +11,15 @@ jobs:
   build:
     # Set the base environment to run the Action on
     runs-on: ubuntu-latest
-    
-    strategy:
-      matrix:
-        # Set the Python version(s) to run the tests with
-        python-version: [3.9]
+    services:
+      pg_db:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: dbtest
+          POSTGRES_USER: usertest
+          POSTGRES_PASSWORD: passwordtest
     
     # Steps to complete the job
     steps:
@@ -36,3 +40,8 @@ jobs:
     - name: flake8 Lint
       run: |
        flake8 . --exclude env,__init__.py,migrations --max-line-length=127
+
+    - name: unittest
+      run: |
+       cd app/
+       python manage.py test --verbosity 2
