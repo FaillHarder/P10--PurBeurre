@@ -34,12 +34,8 @@ jobs:
         if [ -f app/requirements.txt ]; then pip install -r app/requirements.txt; fi
     
     - name: flake8 Lint
-      uses: py-actions/flake8@v1
-      with:
-        ignore: "F401"
-        exclude: "__init__.py,migrations"
-        max-line-length: "127"
-        path: "src"
+      run: |
+       flake8 . --exclude env,__init__.py,migrations --max-line-length=127
     
     - name: Test with unittest
       run: |
