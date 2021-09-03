@@ -17,11 +17,8 @@ jobs:
         ports:
           - 5432:5432
         env:
-          SQL_DATABASE: dbtest
           SQL_USER: usertest
           SQL_PASSWORD: passwordtest
-          SQL_HOST: 127.0.0.1
-          SQL_PORT: 5432
     
     # Steps to complete the job
     steps:
