@@ -1,5 +1,5 @@
 # Article: https://medium.com/rockedscience/docker-ci-cd-pipeline-with-github-actions-6d4cd1731030
-name: Run tests and flake8 with Python
+name: Run flake8 and unittest with Python
 
 # Sets the events which will trigger the Action
 # `push` = any "push" action to the GitHub "remote",
@@ -16,9 +16,9 @@ jobs:
         image: postgres
         ports:
           - 5432:5432
-        env:
-          SQL_USER: usertest
-          SQL_PASSWORD: passwordtest
+        # env:
+        #   SQL_USER: usertest
+        #   SQL_PASSWORD: passwordtest
     
     # Steps to complete the job
     steps:

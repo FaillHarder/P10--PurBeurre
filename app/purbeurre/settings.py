@@ -85,9 +85,9 @@ WSGI_APPLICATION = 'purbeurre.wsgi.application'
 DATABASES = {
     'default': {
         "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.postgresql"),
-        "NAME": os.environ.get("SQL_DATABASE", "purbeurre_django_dev"),
-        "USER": os.environ.get("SQL_USER", "purbeurre_django"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", "purbeurre_django"),
+        "NAME": os.environ.get("SQL_DATABASE", "pur-beurre"),
+        "USER": os.environ.get("SQL_USER", "purbeurredev"),
+        "PASSWORD": os.environ.get("SQL_PASSWORD", "purbeurretest"),
         "HOST": os.environ.get("SQL_HOST", "localhost"),
         "PORT": os.environ.get("SQL_PORT", "5432"),
     }
