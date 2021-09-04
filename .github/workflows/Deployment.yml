@@ -15,11 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup SSH
-        uses: kielabokkie/ssh-key-and-known-hosts-action@v1.2.0
+      - uses: kielabokkie/ssh-key-and-known-hosts-action@v1
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-host: ${{ secrets.SSH_HOST }}
+          ssh-host: ${{ secrets.HOST }}
       
       - name: Autodeploy
         run: |
