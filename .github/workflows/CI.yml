@@ -17,9 +17,9 @@ jobs:
         ports:
           - 5432:5432
         env:
-          POSTGRES_DB: pur-beurre
-          POSTGRES_USER: purbeurredev
-          POSTGRES_PASSWORD: purbeurretest
+          POSTGRES_DB: dbtest
+          POSTGRES_USER: usertest
+          POSTGRES_PASSWORD: passwordtest
           
     
     # Steps to complete the job
