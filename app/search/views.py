@@ -1,5 +1,8 @@
+import logging
 from search.models import Product
 from django.shortcuts import redirect, render
+
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -20,6 +23,11 @@ def search_product(request):
             context = {
                 "products": products_list
             }
+            # New Relic search information
+            logger.info('New search', exc_info=True, extra={
+                # Optionally pass a request and we'll grab any information we can
+                'request': request,
+            })
             return render(request, "search_product.html", context)
         else:
             return(redirect("index"))
