@@ -185,7 +185,7 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
     'root': {
-        'level': 'INFO', # WARNING by default. Change this to capture more than warnings.
+        'level': 'INFO',  # WARNING by default. Change this to capture more than warnings.
         'handlers': ['sentry'],
     },
     'formatters': {
@@ -196,7 +196,7 @@ LOGGING = {
     },
     'handlers': {
         'sentry': {
-            'level': 'INFO', # To capture more than ERROR, change to WARNING, INFO, etc.
+            'level': 'INFO',  # To capture more than ERROR, change to WARNING, INFO, etc.
             'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
             'tags': {'custom-tag': 'x'},
         },
