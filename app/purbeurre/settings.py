@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'search',
     'usermanager',
     'favorite',
+    'raven.contrib.django.raven_compat',
 ]
 
 MIDDLEWARE = [
