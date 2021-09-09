@@ -40,11 +40,7 @@ jobs:
     
     - name: flake8 Lint
       run: |
-<<<<<<< HEAD
-       flake8 --exclude env,migrations,settings.py --max-line-length=127 .
-=======
-       flake8 --exclude env,app\__init__.py,migrations,app\purbeurre\settings.py --max-line-length=127 .
->>>>>>> 53c44c17dfecceaf2b5aa3cd768b60591f376d0c
+       flake8 . --exclude env,migrations,settings.py --max-line-length=127
 
     - name: unittest
       env:
