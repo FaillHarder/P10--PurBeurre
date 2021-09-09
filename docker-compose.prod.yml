@@ -7,6 +7,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
       - ./.env.prod.db
+
   web:
     build:
       context: ./app
@@ -20,6 +21,8 @@ services:
       - ./.env.prod
     depends_on:
       - db
+      - redis
+
   nginx:
     build: ./nginx
     volumes:
@@ -28,6 +31,7 @@ services:
       - 1337:80
     depends_on:
     - web
+
   agent:
     container_name: newrelic-infra
     build:
@@ -44,6 +48,30 @@ services:
       - "/:/host:ro"
       - "/var/run/docker.sock:/var/run/docker.sock"
     restart: unless-stopped
+
+  redis:
+    image: redis:alpine
+  celery:
+    build:
+      context: ./app
+    command: celery -A purbeurre worker -l info
+    volumes:
+      - ./app/:/usr/src/app/
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - redis
+
+  celery-beat:
+    build:
+      context: ./app
+    command: celery -A purbeurre beat -l info
+    volumes:
+      - ./app/:/usr/src/app/
+    env_file:
+      - ./.env.prod
+    depends_on:
+      - redis
 volumes:
   postgres_data:
   static_volume:
