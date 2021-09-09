@@ -14,6 +14,9 @@ import os
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+from celery.schedules import crontab
+import purbeurre.tasks
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -32,6 +35,7 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
+    'django_celery_beat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -170,3 +174,19 @@ sentry_sdk.init(
     send_default_pii=True
 )
 # End Sentry settings
+
+# Celery settings
+CELERY_BROKER_URL = "redis://redis:6379"
+CELERY_RESULT_BACKEND = "redis://redis:6379"
+
+CELERY_BEAT_SCHEDULE = {
+    "run_populatedb": {
+        "task": "purbeurre.tasks.run_populatedb",
+        "schedule": crontab(
+            minute=0,
+            hour=0,
+            day_of_week='sunday'
+        ),
+    },
+}
+# End Celery settings
